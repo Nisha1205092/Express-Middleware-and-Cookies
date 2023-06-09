@@ -11,6 +11,7 @@ const middlewareGlobal = (req, res, next) => {
 
 const middleware1 = (req, res, next) => {
     console.log('I am the first middleware');
+    req.customProperty = 100;
     next();
 }
 
@@ -18,6 +19,8 @@ const middleware2 = (req, res, next) => {
     console.log('I am the second middleware');
     // const err = new Error('I am an error from middleware2');
     // next(err);
+    console.log(`req.customProperty: ${req.customProperty}`);
+    req.customProperty = 600;
     next();
 }
 
@@ -39,7 +42,7 @@ app.use(middlewareGlobal);
 // route specific middlewares
 app.get('/', middleware1, middleware2, (req, res, next) => {
     console.log('I am the standard Express function!');
-    res.send('<h1>Hello World!</h1>');
+    res.send(`<h1>Hello World! req.customProperty: ${req.customProperty}</h1>`);
 });
 
 // error handling middlewares are written
